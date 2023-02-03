@@ -1,45 +1,89 @@
-import React, {useState} from 'react'
-import { Link,useNavigate,useParams } from 'react-router-dom'
-import {GrFavorite} from 'react-icons/gr'
-import {VscChevronDown} from 'react-icons/vsc'
+import React, {useContext, useState} from "react";
+import {Link, useNavigate, useParams} from 'react-router-dom'
+import { useGlobalContext } from "../../Context";
+import { toTitleCase } from "../../utils";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css'
+import ProductSubs from "./ProductSubs";
+import SwiperItem from "../../components/swiper/Swiper";
+import Recommended from "./Recommended";
+import {VscArrowRight} from 'react-icons/vsc'
 import {VscChevronRight} from 'react-icons/vsc'
 import {VscChevronLeft} from 'react-icons/vsc'
-import {VscArrowRight} from 'react-icons/vsc'
-import { useGlobalContext } from '../../Context'
-import { ToastContainer, toast } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
-import { toTitleCase } from '../../utils'
 
 
 
 export const ProductItem = () => {
-  const {productId} = useParams()
-  const {products, setCarts, cart, toggleFavorite, favorite} = useGlobalContext()
-  const [qty, setQty] =  useState()
-  const [disableButton, setDisableButton]= useState(false)
-  const navigate = useNavigate()
+    const {productId} = useParams()
+    const {products, setCart, cart, toggleFavorite, favorite} = useGlobalContext()
+    const [qty, setQty] = useState(1)
+    const [disableButton, setDisableButton] = useState(false)
+    const navigate = useNavigate()
+    
+    // find the product with the id from url parameter
+    const openProduct = products.find(item => item.id == productId)
 
-      // find the product with the id from url parameter
-      const openProduct = products.find(item => item.id == productId)
+    useState(()=>{
+        console.log('ran')
+        // check whether the product is in cart already and disable the button 
+        if(cart.some(item => item.id == productId)){
+            setDisableButton(true)
+        }
+    },[])
 
-      useState(()=>{
-          console.log('ran')
-          // check whether the product is in cart already and disable the button 
-          if(cart.some(item => item.id == productId)){
-              setDisableButton(true)
-          }
-      },[])
-  return (
-    <div>
-       <ToastContainer/>
-       <div className="container mx-auto px-4 md:px-0 pb-20 md:mb-0">
+    // Mapped some part of the product to serve as recommended product 
+    const recommendedItems = products.map((item, index)=>{
+        if(index >= 10 && index <= 13){
+            return(
+                <Recommended
+                    id={item.id}
+                    key={item.id}
+                    img={item.url} 
+                    title={item.name}
+                    ethprice={item.price.eth}
+                    setFavorite={toggleFavorite}
+                />
+            )
+        }
+    })
+    
+
+    const handleClick = (e) => {
+        //Get the product
+        const id = e.currentTarget.getAttribute('data-id')
+        const product = products.find(item => item.id == id)
+        //Add the product quantity selected
+        product.qty = qty
+
+        //Add product to cart
+        setCart(prevCart => {
+            return [...prevCart, product]
+        })
+        //Disable add button
+        setDisableButton(true)
+        //Show suckcessful toast
+        toast("Product Added Successfuly!", {type: 'success'});
+        //Navigate to the cart page
+        navigate('/cart')
+    }
+
+    // reducing the quantity selected while it's greate than 1
+    function decreaseQty(){
+        if(qty > 1){
+            setQty(prevValue => prevValue-1)
+        } 
+    }
+    return (
+        <div>
+            <ToastContainer />
+            <div className="container mx-auto px-4 md:px-0 pb-20 md:mb-0">
                 <div className="max-w-[1064px] mx-auto">
                     <section className='font-medium md:leading-[200%] mb-8 md:mb-10 border-b-[0.5px] md:border-b-0 border-b-grey leading-[52px]'>
                         <span className='text-[#BCB7B7]'><Link to="/">Home/</Link> <Link to="marketplace">Marketplace/</Link> Editorial/</span>
                         <span className='text-black'>{openProduct && toTitleCase(openProduct.name)}</span>
                     </section>
 
-                    {/* <main className='md:border flex-col md:flex-row border-grey flex text-grey leading-[97%]'>
+                    <main className='md:border flex-col md:flex-row border-grey flex text-grey leading-[97%]'>
                         <div className='md:w-2/5 shrink-0 md:border-r border-r-grey md:py-5 md:px-3'>
                             <img src={openProduct && openProduct.url} alt="" className='w-full'/>
                         </div>
@@ -66,7 +110,7 @@ export const ProductItem = () => {
                                     <div className='flex'>
                                         <button disabled={disableButton ? true : false} id='add-to-cart' onClick={handleClick} data-id={`${openProduct && openProduct.id}`} className='bg-blue disabled:bg-blue/[0.5] rounded-[3px] px-6 md:px-8 h-[3.5rem] flex items-center text-white font-medium'>
                                             <span>Add to Cart</span>
-                                            <VscArrowRight />
+                                            <VscArrowRight className="h-[64px] w-[24px] ml-2" />
                                         </button>
                                         <button className='border h-[3.5rem] border-grey px-3 ml-4'>
                                             <svg onClick={()=>toggleFavorite(productId)} className="h-[25px] w-[27px] md:h-[42px] w-[34px]" width="49" height="34" viewBox="0 0 49 34" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -90,14 +134,10 @@ export const ProductItem = () => {
                     <div className='hidden md:flex my-16 p-4 shadow-4xl'>
                         <span className='text-xl font-medium'>Explore more from this collection</span>
                         <button className='h-8 w-8 mr-4 rounded-full border border-grey ml-auto inline-flex items-center justify-center'>
-                            <svg width="10" height="16" viewBox="0 0 15 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M0.339233 13.5015L12.5109 25.1171C12.714 25.311 12.9838 25.4192 13.2644 25.4192C13.5449 25.4192 13.8148 25.311 14.0179 25.1171L14.031 25.104C14.1298 25.01 14.2084 24.8968 14.2622 24.7714C14.3159 24.646 14.3437 24.5109 14.3437 24.3744C14.3437 24.238 14.3159 24.1029 14.2622 23.9775C14.2084 23.8521 14.1298 23.7389 14.031 23.6449L2.56913 12.7074L14.031 1.77429C14.1298 1.68029 14.2084 1.56714 14.2622 1.44172C14.3159 1.31631 14.3437 1.18125 14.3437 1.04476C14.3437 0.908278 14.3159 0.773218 14.2622 0.647802C14.2084 0.522387 14.1298 0.409235 14.031 0.315231L14.0179 0.302105C13.8148 0.108194 13.5449 2.09808e-05 13.2644 2.09808e-05C12.9838 2.09808e-05 12.714 0.108194 12.5109 0.302105L0.339233 11.9177C0.232188 12.0199 0.146969 12.1427 0.0887411 12.2789C0.0305131 12.415 0.000488281 12.5615 0.000488281 12.7096C0.000488281 12.8577 0.0305131 13.0042 0.0887411 13.1404C0.146969 13.2765 0.232188 13.3993 0.339233 13.5015Z" fill="#616161"/>
-                            </svg>
+                            <VscChevronLeft />
                         </button>
                         <button className='h-8 w-8 rounded-full border border-grey inline-flex items-center justify-center'>
-                            <svg width="10" height="16" viewBox="0 0 15 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M14.0045 11.9177L1.83288 0.302084C1.62979 0.108173 1.35997 0 1.07939 0C0.798805 0 0.528989 0.108173 0.325899 0.302084L0.312794 0.315209C0.213999 0.409213 0.13533 0.522364 0.0815735 0.64778C0.0278158 0.773196 9.34601e-05 0.908255 9.34601e-05 1.04474C9.34601e-05 1.18122 0.0278158 1.31628 0.0815735 1.4417C0.13533 1.56712 0.213999 1.68027 0.312794 1.77427L11.7746 12.7118L0.312794 23.6449C0.213999 23.7389 0.13533 23.8521 0.0815735 23.9775C0.0278158 24.1029 9.34601e-05 24.2379 9.34601e-05 24.3744C9.34601e-05 24.5109 0.0278158 24.646 0.0815735 24.7714C0.13533 24.8968 0.213999 25.01 0.312794 25.104L0.325899 25.1171C0.528989 25.311 0.798805 25.4192 1.07939 25.4192C1.35997 25.4192 1.62979 25.311 1.83288 25.1171L14.0045 13.5015C14.1116 13.3993 14.1968 13.2765 14.255 13.1403C14.3132 13.0042 14.3433 12.8577 14.3433 12.7096C14.3433 12.5615 14.3132 12.415 14.255 12.2788C14.1968 12.1427 14.1116 12.0199 14.0045 11.9177Z" fill="#333333"/>
-                            </svg>
+                            <VscChevronRight />
                         </button>
                     </div>
 
@@ -106,17 +146,20 @@ export const ProductItem = () => {
                     <section className='overflow-x-scroll flex-nowrap gap-9 hidden md:flex'>
                         {recommendedItems}
                     </section>
-                    <section className=' md:hidden'>
+                    {/* <section className=' md:hidden'>
                         <SwiperItem />
-                    </section>
+                    </section> */}
                     <Link to="/marketplace" className='hidden md:block'>
                         <div className='my-[100px] border-img w-fit p-[2px] rounded-[1rem] overflow-hidden mx-auto'>
                             <button className=' h-[3.5rem] px-8 text-[26px] rounded-[1rem] font-medium leading-[25px] bg-white'><span className='text-gradient'>Explore All</span></button>
                         </div>
-                    </Link> */}
+                    </Link>
                 </div>
             </div>
         </div>
-    
   )
 }
+
+
+
+
