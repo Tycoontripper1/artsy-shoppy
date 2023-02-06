@@ -1,4 +1,4 @@
-import React, {useContext, useState} from "react";
+import React, { useState} from "react";
 import {Link, useNavigate, useParams} from 'react-router-dom'
 import { useGlobalContext } from "../../Context";
 import { toTitleCase } from "../../utils";
@@ -64,7 +64,7 @@ export const ProductItem = () => {
         //Show suckcessful toast
         toast("Product Added Successfuly!", {type: 'success'});
         //Navigate to the cart page
-        navigate('/cart')
+        navigate('/carts')
     }
 
     // reducing the quantity selected while it's greate than 1

@@ -5,6 +5,7 @@ import { Home } from "./pages/home/Home";
 import { ContextProvider } from "./Context";
 import { ProductItem } from "./pages/productItem/ProductItem";
 import ProductPage from "./pages/marketplace/Marketplace";
+import { Cart } from "./pages/cart/Cart";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/marketplace" element={<ProductPage />} />
         <Route path='/marketplace/:productId' element={<ProductItem />} />
+        <Route path='/carts' element={<Cart />} />
       </Routes>
     </ContextProvider>
     
