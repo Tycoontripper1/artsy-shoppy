@@ -6,7 +6,7 @@ import { ContextProvider } from "./Context";
 import { ProductItem } from "./pages/productItem/ProductItem";
 import ProductPage from "./pages/marketplace/Marketplace";
 import { Cart } from "./pages/cart/Cart";
-
+import Auctions from "./pages/auctions/Auctions";
 function App() {
   return (
     <ContextProvider>
@@ -16,6 +16,7 @@ function App() {
         <Route path="/marketplace" element={<ProductPage />} />
         <Route path='/marketplace/:productId' element={<ProductItem />} />
         <Route path='/carts' element={<Cart />} />
+        <Route path='/auctions' element={<Auctions />} />
       </Routes>
     </ContextProvider>
     
