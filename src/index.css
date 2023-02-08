@@ -48,7 +48,7 @@
     @apply mr-[47px] last:mr-0 text-2xl leading-8 inline-block
   }
   .active{
-    @apply font-medium underline
+    @apply font-medium underline 
   }
   .rounded-btn{
     @apply flex items-center justify-center bg-white/[0.2] h-[69.71px] w-[69.71px] rounded-full backdrop-blur-[7.77035px]

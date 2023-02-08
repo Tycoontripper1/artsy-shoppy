@@ -10,6 +10,7 @@ import Auctions from "./pages/auctions/Auctions";
 import Livebid from "./pages/livebid/Livbid";
 import { Drop } from "./pages/drop/Drop";
 import { PaymentCheckout } from "./pages/cart/PaymentCheckout";
+import { CartShippingDetails } from "./pages/cart/CartShippingDetails";
 function App() {
   return (
     <ContextProvider>
@@ -22,6 +23,7 @@ function App() {
         <Route path='/auctions' element={<Auctions />} />
         <Route path='/drop' element={<Drop />} />
         <Route path='/checkout' element={<PaymentCheckout />} />
+        <Route path='/shipping-details' element={<CartShippingDetails />} />
         <Route path="/live-bid/:productId" element={<Livebid />} />
       </Routes>
     </ContextProvider>
