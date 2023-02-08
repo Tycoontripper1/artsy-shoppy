@@ -5,7 +5,7 @@ import TopBids from './TopBids'
 import { toTitleCase } from '../../utils'
 import bids from './bids'
 import Transitions from '../../components/transition/Transition'
-// import Livebid from '../livebid/Livebid'
+import Livebid from '../livebid/Livbid'
 import { Context } from '../../Context'
 
 function Auctions() {
@@ -41,7 +41,7 @@ function Auctions() {
                 key={item.id}
                 id={item.id}
                 img={item.url}
-                // handleClick={liveBidding}
+                handleClick={liveBidding}
             />
         )
     })
@@ -91,9 +91,9 @@ function Auctions() {
 
         return (
             <Transitions>
-                {/* {showLiveBid.status && <div className='fixed top-0 left-0 w-full h-screen bg-white overflow-scroll z-50'>
+                {showLiveBid.status && <div className='fixed top-0 left-0 w-full h-screen bg-white overflow-scroll z-50'>
                     <Livebid auctionProduct={auctionProduct} prodId={showLiveBid.id} handleClick={closeLiveBid}/>
-                </div>} */}
+                </div>}
                 <div className="container mx-auto pb-16">
                     <div className="max-w-[1064px] mx-auto  px-4 md:px-0">
                         <article className='text-lg leading-[200%] font-medium mb-10'>
