@@ -7,7 +7,8 @@ import InputWrapper from './InputWrapper'
 export const CartShippingDetails = () => {
   const cartItems = useRef()
   const checkoutForm = useRef()
-  const {setName} = useGlobalContext
+  const {setName} = useGlobalContext()
+  
   const navigate = useNavigate()
 
 
@@ -41,6 +42,7 @@ const options = countries.map((country)=>{
       postcode: '',
       number: ''
   })
+
   function handleSubmit(e){
     e.preventDefault();
     setName(formData.name)
@@ -165,7 +167,7 @@ function handleSwitch(e){
                     placeholder='08123456785'
                 />
             </InputWrapper>
-            <button className='block w-full bg-blue text-xl text-white mt-8 h-[3.5rem]'>Proceed to payment</button>
+            <button  className='block w-full bg-blue text-xl text-white mt-8 h-[3.5rem]'>Proceed to payment</button>
             <Link to="/cart" className='md:hidden'><span className='text-lg underline text-[#006CA2] block text-center my-7'>Go Back to cart</span></Link>
         </form>
         {/* cart checkout */}

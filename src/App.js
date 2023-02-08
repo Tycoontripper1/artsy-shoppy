@@ -24,7 +24,9 @@ function App() {
         <Route path='/drop' element={<Drop />} />
         <Route path='/checkout' element={<PaymentCheckout />} />
         <Route path='/shipping-details' element={<CartShippingDetails />} />
+        
         <Route path="/live-bid/:productId" element={<Livebid />} />
+
       </Routes>
     </ContextProvider>
     
