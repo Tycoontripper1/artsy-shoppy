@@ -13,7 +13,7 @@ function ProductPage() {
     return (
     <Transitions>
         <div className='md:mt-5 mb-16 h-calc overflow-y-scroll'>
-            <div className='container mx-auto flex'>
+            <div className='container mx-auto flex px-12'>
                 <SideNav />
                 <main className='px-4 md:px-11 w-full'>
                     <article className='md:hidden text-[#BCB7B7] mb-4'>

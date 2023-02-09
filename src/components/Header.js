@@ -114,7 +114,9 @@ export const Header = () => {
               <p className="text-xs text-white font-semibold">{cart.length}</p>
             </div>)}
           </div>
-          <MdNotificationsNone className="hidden md:block" />
+          <Link to='/drop'>
+            <MdNotificationsNone className="hidden md:block" />
+          </Link>
         </div>
       </div>
     </section>

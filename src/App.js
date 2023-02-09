@@ -11,6 +11,7 @@ import Livebid from "./pages/livebid/Livbid";
 import { Drop } from "./pages/drop/Drop";
 import { PaymentCheckout } from "./pages/cart/PaymentCheckout";
 import { CartShippingDetails } from "./pages/cart/CartShippingDetails";
+import { Confirmation } from "./pages/confirmpage/Confirmation";
 function App() {
   return (
     <ContextProvider>
@@ -23,6 +24,7 @@ function App() {
         <Route path='/auctions' element={<Auctions />} />
         <Route path='/drop' element={<Drop />} />
         <Route path='/checkout' element={<PaymentCheckout />} />
+        <Route path='/checkout-success' element={<Confirmation />} />
         <Route path='/shipping-details' element={<CartShippingDetails />} />
         
         <Route path="/live-bid/:productId" element={<Livebid />} />
